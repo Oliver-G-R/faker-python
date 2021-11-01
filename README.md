@@ -20,6 +20,7 @@ se puedan guardar en un archivo de texto o en un JSON.
 - [Python]('https://www.python.org/downloads/')  
 
 - faker: pip install faker  
+- colorama: pip install colorama
 
 ## Adicionales  
 Este proyecto fue creado con la versión 3.9.7 de python.  
@@ -39,8 +40,9 @@ de los corchetes, y este será el nombre con el cual se accederá al
 generador.  
 
 
-![MENU USUARIO](./img/consola/menuGenerateUser.png)  
-![OPCIONES USUARIO](./img/consola/optionsUserMenu.png)  
+![MENU USUARIO](./img/consola/options2.png)  
+![MENU USUARIO](./img/consola/options.png)
+
 Se escoge lo que se quiere generar para despues asignar cantidad y   
 si se desea guardar en un tipo de archivo.  
 
