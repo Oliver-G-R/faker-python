@@ -1,6 +1,7 @@
-import json
 import os
+from colorama.ansi import Fore
 from faker import Faker
+from helpers.AsciiCodeFaker.AsciiCodeFaker import AsciiCodeFaker as ACF
 from helpers.GenerateFile import GenerateFile
 from models.userModel import modelUser
 
@@ -15,88 +16,109 @@ class User:
         self.emails = []
         self.passwords = []
 
+    def showDataGenerated(self, data):
+        os.system("clear")
+        ACF()
+        print(Fore.GREEN + "\n=== Data generated ===\n")
+
+        if isinstance(data[0], dict):
+            for i in data:
+                for key in i:
+                    print(Fore.RED + key, ":", i[key])
+                print(Fore.GREEN + "\n===============\n")
+        else:
+            for user in data:
+                print(Fore.RED + user)
+                print(Fore.GREEN + "\n===============\n")
+
     def questSaveInFile(self, data):
-        print("Do you want to save the file? [s][n]")
-        option = input(":> ").lower()
+        print(Fore.GREEN + "\nDo you want to save the file? [s][n]\n")
+        option = input(Fore.LIGHTBLACK_EX + ":> ").lower()
         if option == "s":
             gFile = GenerateFile(data)
             gFile.menu()
+        os.system("clear")
 
     def menu(self):
         tryAgain = True
-        print("=== Generate users ===")
+        optionTrAgain = {"y", "n"}
         while tryAgain:
+            os.system("clear")
+            ACF()
             while True:
-                os.system("clear")
                 print(
-                    """
+                    Fore.RED
+                    + """
                         1. Generate Fast User
                         2. Generate Email
                         3. Generate Password
                     """
                 )
 
-                op = input(":> ")
+                op = input(Fore.LIGHTBLACK_EX + ":> ")
 
                 if op in options:
                     if op == "1":
-                        self.generateFaztUser()
+                        self.generateFastUser()
                     elif op == "2":
                         self.generateEmail()
                     elif op == "3":
                         self.generatePassword()
                     break
 
-            tryAgain = input("Do you want to try again? (y/n) ")
+            print(Fore.GREEN + "\nDo you want to try again? [s][n]\n")
+            tryAgain = input(Fore.LIGHTBLACK_EX + ":> ").lower()
 
-            if tryAgain == "y":
-                tryAgain = True
-            else:
-                tryAgain = False
+            if tryAgain in optionTrAgain:
+                if tryAgain == "s":
+                    tryAgain = True
+                elif tryAgain == "n":
+                    tryAgain = False
+                break
 
     def generateFastUser(self):
-        print("How many users do you want to generate?")
-        amount = int(input(":> "))
+        print(Fore.GREEN + "\nHow many users do you want to generate?\n")
+        amount = int(input(Fore.LIGHTBLACK_EX + ":> "))
 
         for user in range(amount):
             self.users.append(modelUser())
 
-        print(json.dumps(self.users, sort_keys=False, indent=4))
+        self.showDataGenerated(self.users)
         self.questSaveInFile(self.users)
         self.users.clear()
 
     def generateEmail(self):
-        print("How many emails do you want to generate?")
-        amount = int(input(":> "))
+        print(Fore.GREEN + "\nHow many emails do you want to generate?\n")
+        amount = int(input(Fore.LIGHTBLACK_EX + ":> "))
         for email in range(amount):
-            self.emails.append(fake.email())
+            self.emails.append(fake.free_email())
 
-        print(self.emails)
+        self.showDataGenerated(self.emails)
         self.questSaveInFile(self.emails)
         self.emails.clear()
 
     def generatePassword(self):
-        print("How many passwords do you want to generate?")
-        amount = int(input(":> "))
+        print(Fore.GREEN + "\nHow many passwords do you want to generate?\n")
+        amount = int(input(Fore.LIGHTBLACK_EX + ":> "))
 
-        print("Do you want to complete some password options? [s][n] ")
-        op = input(":> ").lower()
+        print(Fore.GREEN + "\nDo you want to complete some password options? [s][n]\n")
+        op = input(Fore.LIGHTBLACK_EX + ":> ").lower()
 
         if op == "s":
-            print("Length: ")
-            length = int(input(":> "))
+            print(Fore.GREEN + "\nLength\n")
+            length = int(input(Fore.LIGHTBLACK_EX + ":> "))
 
-            print("Special characters: [s][n]")
-            special_chars = input(":> ").lower() == "s"
+            print(Fore.GREEN + "\nSpecial characters: [s][n]\n")
+            special_chars = input(Fore.LIGHTBLACK_EX + ":> ").lower() == "s"
 
-            print("Digits: [s][n]")
-            digits = input(":> ").lower() == "s"
+            print(Fore.GREEN + "\nDigits: [s][n]\n")
+            digits = input(Fore.LIGHTBLACK_EX + ":> ").lower() == "s"
 
-            print("Upper case: [s][n]")
-            upper_case = input(":> ").lower() == "s"
+            print(Fore.GREEN + "\nUpper case: [s][n]\n")
+            upper_case = input(Fore.LIGHTBLACK_EX + ":> ").lower() == "s"
 
-            print("Lower case: [s][n]")
-            lower_case = input(":> ").lower() == "s"
+            print(Fore.GREEN + "\nLower case: [s][n]\n")
+            lower_case = input(Fore.LIGHTBLACK_EX + ":> ").lower() == "s"
 
             for password in range(amount):
                 self.passwords.append(
@@ -108,12 +130,13 @@ class User:
                         lower_case=lower_case,
                     )
                 )
-            print(self.passwords)
+
+            self.showDataGenerated(self.passwords)
             self.questSaveInFile(self.passwords)
             self.passwords.clear()
         else:
             for password in range(amount):
                 self.passwords.append(fake.password())
-            print(self.passwords)
+            self.showDataGenerated(self.passwords)
             self.questSaveInFile(self.passwords)
             self.passwords.clear()

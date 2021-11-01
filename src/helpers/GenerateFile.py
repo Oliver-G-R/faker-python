@@ -1,6 +1,10 @@
 import json
 import os
 
+from colorama.ansi import Fore
+
+from helpers.AsciiCodeFaker.AsciiCodeFaker import AsciiCodeFaker as ACF
+
 menuTypeFile = {"json", "txt"}
 
 
@@ -14,24 +18,26 @@ class GenerateFile:
         """
             Menu para elegir el tipo de archivo que se quiere generar.
         """
-        while True:
-            try:
-                os.system("clear")
-                print("Type of file to generate: ")
-                for menuT in menuTypeFile:
-                    print(f"- {menuT}")
 
-                self.file_type = input(":> ").lower()
+        while True:
+            os.system("clear")
+            ACF()
+            try:
+                print(Fore.GREEN + "Type of file to generate\n")
+                for menuT in menuTypeFile:
+                    print(Fore.RED + f"- {menuT}\n")
+
+                self.file_type = input(Fore.LIGHTBLACK_EX + ":> ").lower()
 
                 if self.file_type in menuTypeFile:
-                    print("Name of file: ")
-                    self.file_name = input(":> ")
+                    print(Fore.GREEN + "\nName of file\n")
+                    self.file_name = input(Fore.LIGHTBLACK_EX + ":> ")
                     self.generate_file()
                     break
                 else:
-                    print("Tipo de archivo no soportado")
+                    print(Fore.GREEN + "\nTipo de archivo no soportado\n")
             except ValueError:
-                print("Tipo de archivo no soportado")
+                print(Fore.GREEN + "\nTipo de archivo no soportado\n")
 
     def generate_file(self):
         """
@@ -41,8 +47,6 @@ class GenerateFile:
             self.generate_json()
         elif self.file_type == "txt":
             self.generate_txt()
-        else:
-            print("Tipo de archivo no soportado")
 
     def generate_json(self):
         """
