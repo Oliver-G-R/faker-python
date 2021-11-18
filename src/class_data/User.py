@@ -43,9 +43,9 @@ class User:
         tryAgain = True
         optionTrAgain = {"y", "n"}
         while tryAgain:
-            os.system("clear")
-            ACF()
             while True:
+                os.system("clear")
+                ACF()
                 print(
                     Fore.RED
                     + """
@@ -87,56 +87,72 @@ class User:
         self.questSaveInFile(self.users)
         self.users.clear()
 
-    def generateEmail(self):
-        print(Fore.GREEN + "\nHow many emails do you want to generate?\n")
-        amount = int(input(Fore.LIGHTBLACK_EX + ":> "))
-        for email in range(amount):
-            self.emails.append(fake.free_email())
+    def validateNUmber(self):
+        try:
+            number = int(input(Fore.LIGHTBLACK_EX + ":> "))
+            return number
+        except ValueError:
+            return False
 
-        self.showDataGenerated(self.emails)
-        self.questSaveInFile(self.emails)
-        self.emails.clear()
+    def generateEmail(self):
+        while True:
+            print(Fore.GREEN + "\nHow many emails do you want to generate?\n")
+            amount = self.validateNUmber()
+            if amount:
+                for email in range(amount):
+                    self.emails.append(fake.free_email())
+
+                self.showDataGenerated(self.emails)
+                self.questSaveInFile(self.emails)
+                self.emails.clear()
+                break
 
     def generatePassword(self):
-        print(Fore.GREEN + "\nHow many passwords do you want to generate?\n")
-        amount = int(input(Fore.LIGHTBLACK_EX + ":> "))
-
-        print(Fore.GREEN + "\nDo you want to complete some password options? [s][n]\n")
-        op = input(Fore.LIGHTBLACK_EX + ":> ").lower()
-
-        if op == "s":
-            print(Fore.GREEN + "\nLength\n")
-            length = int(input(Fore.LIGHTBLACK_EX + ":> "))
-
-            print(Fore.GREEN + "\nSpecial characters: [s][n]\n")
-            special_chars = input(Fore.LIGHTBLACK_EX + ":> ").lower() == "s"
-
-            print(Fore.GREEN + "\nDigits: [s][n]\n")
-            digits = input(Fore.LIGHTBLACK_EX + ":> ").lower() == "s"
-
-            print(Fore.GREEN + "\nUpper case: [s][n]\n")
-            upper_case = input(Fore.LIGHTBLACK_EX + ":> ").lower() == "s"
-
-            print(Fore.GREEN + "\nLower case: [s][n]\n")
-            lower_case = input(Fore.LIGHTBLACK_EX + ":> ").lower() == "s"
-
-            for password in range(amount):
-                self.passwords.append(
-                    fake.password(
-                        length=length,
-                        special_chars=special_chars,
-                        digits=digits,
-                        upper_case=upper_case,
-                        lower_case=lower_case,
-                    )
+        while True:
+            print(Fore.GREEN + "\nHow many passwords do you want to generate?\n")
+            amount = self.validateNUmber()
+            if amount:
+                print(
+                    Fore.GREEN
+                    + "\nDo you want to complete some password options? [s][n]\n"
                 )
+                op = input(Fore.LIGHTBLACK_EX + ":> ").lower()
 
-            self.showDataGenerated(self.passwords)
-            self.questSaveInFile(self.passwords)
-            self.passwords.clear()
-        else:
-            for password in range(amount):
-                self.passwords.append(fake.password())
-            self.showDataGenerated(self.passwords)
-            self.questSaveInFile(self.passwords)
-            self.passwords.clear()
+                if op == "s":
+                    print(Fore.GREEN + "\nLength\n")
+                    length = int(input(Fore.LIGHTBLACK_EX + ":> "))
+
+                    print(Fore.GREEN + "\nSpecial characters: [s][n]\n")
+                    special_chars = input(Fore.LIGHTBLACK_EX + ":> ").lower() == "s"
+
+                    print(Fore.GREEN + "\nDigits: [s][n]\n")
+                    digits = input(Fore.LIGHTBLACK_EX + ":> ").lower() == "s"
+
+                    print(Fore.GREEN + "\nUpper case: [s][n]\n")
+                    upper_case = input(Fore.LIGHTBLACK_EX + ":> ").lower() == "s"
+
+                    print(Fore.GREEN + "\nLower case: [s][n]\n")
+                    lower_case = input(Fore.LIGHTBLACK_EX + ":> ").lower() == "s"
+
+                    for password in range(amount):
+                        self.passwords.append(
+                            fake.password(
+                                length=length,
+                                special_chars=special_chars,
+                                digits=digits,
+                                upper_case=upper_case,
+                                lower_case=lower_case,
+                            )
+                        )
+
+                    self.showDataGenerated(self.passwords)
+                    self.questSaveInFile(self.passwords)
+                    self.passwords.clear()
+                    break
+                else:
+                    for password in range(amount):
+                        self.passwords.append(fake.password())
+                    self.showDataGenerated(self.passwords)
+                    self.questSaveInFile(self.passwords)
+                    self.passwords.clear()
+                    break
