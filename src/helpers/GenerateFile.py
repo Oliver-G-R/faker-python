@@ -54,6 +54,7 @@ class GenerateFile:
         """
         with open(f"{self.file_name}.{self.file_type}", "w") as file:
             json.dump(self.list_obj, file, indent=4)
+            file.close()
 
     def generate_txt(self):
         """
@@ -62,4 +63,5 @@ class GenerateFile:
         with open(f"{self.file_name}.{self.file_type}", "w") as file:
             for obj in self.list_obj:
                 file.write(obj.__str__() + "\n")
+            file.close()
 

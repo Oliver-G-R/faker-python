@@ -40,9 +40,7 @@ class User:
         os.system("clear")
 
     def menu(self):
-        tryAgain = True
-        optionTrAgain = {"y", "n"}
-        while tryAgain:
+        while True:
             while True:
                 os.system("clear")
                 ACF()
@@ -69,16 +67,19 @@ class User:
             print(Fore.GREEN + "\nDo you want to try again? [s][n]\n")
             tryAgain = input(Fore.LIGHTBLACK_EX + ":> ").lower()
 
-            if tryAgain in optionTrAgain:
-                if tryAgain == "s":
-                    tryAgain = True
-                elif tryAgain == "n":
-                    tryAgain = False
-                break
+            if tryAgain == "s":
+                continue
+            elif tryAgain == "n":
+                    break
+            else:
+                continue
 
     def generateFastUser(self):
-        print(Fore.GREEN + "\nHow many users do you want to generate?\n")
-        amount = int(input(Fore.LIGHTBLACK_EX + ":> "))
+        while True:
+            print(Fore.GREEN + "\nHow many users do you want to generate?\n")
+            amount = self.validateNUmber()
+            if amount:
+                break
 
         for user in range(amount):
             self.users.append(modelUser())
